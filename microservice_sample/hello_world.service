@@ -1,0 +1,22 @@
+[Unit]
+Description=OpenWiFi HelloWorld Service
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment="OWHELLOW_ROOT=/home/admin/dev/wlan-cloud-ow_helloworld"
+ExecStart=/home/admin/dev/wlan-cloud-ow_helloworld/cmake-build/ow_helloworld
+WorkingDirectory=/home/admin/dev/wlan-cloud-ow_helloworld
+# ExecReload=/bin/kill -s HUP $MAINPID
+User=admin
+# TimeoutSec=0
+RestartSec=2
+Restart=always
+StartLimitBurst=3
+# KillMode=process
+LimitNOFILE=500000
+LimitNPROC=500000
+
+[Install]
+WantedBy=multi-user.target

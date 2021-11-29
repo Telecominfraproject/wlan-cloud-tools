@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(owgw VERSION 2.5.0)
+project(ow_helloworld VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -52,7 +52,7 @@ endif()
 
 include_directories(/usr/local/include  /usr/local/opt/openssl/include src include/kafka /usr/local/opt/mysql-client/include)
 
-add_executable( owgw
+add_executable(ow_helloworld
         build
         src/framework/CountryCodes.h
         src/framework/KafkaTopics.h
@@ -75,19 +75,19 @@ if(NOT SMALL_BUILD)
 
 endif()
 
-INSTALL(TARGETS owgw
+INSTALL(TARGETS ow_helloworld
         RUNTIME DESTINATION /usr/bin
 )
 
-target_link_libraries(owgw PUBLIC
+target_link_libraries(ow_helloworld PUBLIC
                         ${Poco_LIBRARIES} ${Boost_LIBRARIES} ${ZLIB_LIBRARIES})
 if(NOT SMALL_BUILD)
-    target_link_libraries(owgw PUBLIC
+    target_link_libraries(ow_helloworld PUBLIC
             ${MySQL_LIBRARIES} ${ZLIB_LIBRARIES}
                 CppKafka::cppkafka
                 nlohmann_json_schema_validator
              )
     if(UNIX AND NOT APPLE)
-        target_link_libraries(owgw PUBLIC PocoJSON)
+        target_link_libraries(ow_helloworld PUBLIC PocoJSON)
     endif()
 endif()
