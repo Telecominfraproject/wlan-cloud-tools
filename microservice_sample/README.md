@@ -6,10 +6,8 @@ This is a skeleton Micro Service that shows off all the basic facilities of the 
 ## Building
 In order to build the uCentralGW, you will need to install its dependencies, which includes the following:
 - cmake
-- boost
-- POCO 1.11.1 or later (special build)
+- POCO 1.12 or later (special build)
 - a C++17 compiler
-- libyaml
 - openssl
 - libpq-dev (PortgreSQL development libraries)
 - mysql-client (MySQL client)
@@ -28,6 +26,7 @@ sudo apt install git cmake g++ libssl-dev libmariadb-dev
 sudo apt install libpq-dev libaprutil1-dev apache2-dev libboost-all-dev
 sudo apt install librdkafka-dev libmysqlclient-dev default-libmysqlclient-dev
 
+cd ~
 git clone https://github.com/stephb9959/poco
 cd poco
 mkdir cmake-build
@@ -36,6 +35,7 @@ cmake ..
 cmake --build . --config Release
 sudo cmake --build . --target install
 
+cd ~
 git clone https://github.com/stephb9959/cppkafka
 cd cppkafka
 mkdir cmake-build
@@ -43,6 +43,24 @@ cd cmake-build
 cmake ..
 cmake --build . --config Release
 sudo cmake --build . --target install
+
+cd ~
+git clone https://github.com/nlohmann/json.git
+cd json
+mkdir cmake-build
+cd cmake-build
+cmake ..
+make -j
+sudo make install
+
+cd ~
+git clone https://github.com/pboettch/json-schema-validator.git
+cd json-schema-validator
+mkdir cmake-build
+cd cmake-build
+cmake ..
+make -j
+sudo make install
 
 cd ~
 git clone https://github.com/Telecominfraproject/wlan-cloud-tools

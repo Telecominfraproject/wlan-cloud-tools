@@ -16,22 +16,20 @@
 namespace OpenWifi {
 
     class Storage : public StorageClass {
-
     public:
-
-        static Storage *instance() {
-			static Storage * instance_ = new Storage;
-			return instance_;
+        static auto instance() {
+            static auto instance_ = new Storage;
+            return instance_;
         }
 
-		int 	Start() override;
-		void 	Stop() override;
+        int 	Start() override;
+        void 	Stop() override;
 
-	  private:
+    private:
 
-   };
+    };
 
-   inline Storage * StorageService() { return Storage::instance(); }
+    inline auto StorageService() { return Storage::instance(); }
 
 }  // namespace
 

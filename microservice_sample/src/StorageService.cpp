@@ -13,13 +13,12 @@ namespace OpenWifi {
     int Storage::Start() {
 		std::lock_guard		Guard(Mutex_);
 		StorageClass::Start();
-
 		return 0;
     }
 
     void Storage::Stop() {
     	std::lock_guard		Guard(Mutex_);
-        Logger_.notice("Stopping.");
+        Logger().notice("Stopping.");
 		StorageClass::Stop();
     }
 }

@@ -45,7 +45,7 @@ namespace OpenWifi {
 							const SubSystemVec & SubSystems) :
 				MicroService( PropFile, RootEnv, ConfigEnv, AppName, BusTimer, SubSystems) {};
 
-			void initialize();
+            void PostInitialization(Poco::Util::Application &self);
 			static Daemon *instance();
 			Poco::Logger & Log() { return Poco::Logger::get(AppName()); }
 	  	private:
@@ -53,5 +53,8 @@ namespace OpenWifi {
     };
 
 	inline Daemon * Daemon() { return Daemon::instance(); }
+    inline void DaemonPostInitialization(Poco::Util::Application &self) {
+        Daemon()->PostInitialization(self);
+    }
 }
 

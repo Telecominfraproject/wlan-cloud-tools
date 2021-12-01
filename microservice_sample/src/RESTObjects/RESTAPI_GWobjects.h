@@ -22,7 +22,6 @@ namespace OpenWifi::GWObjects {
 
 	struct ConnectionState {
 		uint64_t MessageCount = 0 ;
-		std::string SerialNumber;
 		std::string Address;
 		uint64_t UUID = 0 ;
 		uint64_t PendingUUID = 0 ;
@@ -34,6 +33,11 @@ namespace OpenWifi::GWObjects {
 		std::string Firmware;
 		CertificateValidation VerifiedCertificate = NO_CERTIFICATE;
 		std::string Compatible;
+		uint64_t 	kafkaClients=0;
+		uint64_t 	webSocketClients=0;
+		uint64_t 	kafkaPackets=0;
+		uint64_t 	websocketPackets=0;
+		std::string locale;
 		void to_json(Poco::JSON::Object &Obj) const;
 	};
 
@@ -49,40 +53,45 @@ namespace OpenWifi::GWObjects {
 		std::string Firmware;
 		std::string Compatible;
 		std::string FWUpdatePolicy;
-		uint64_t UUID;
-		uint64_t CreationTimestamp;
-		uint64_t LastConfigurationChange;
-		uint64_t LastConfigurationDownload;
-		uint64_t LastFWUpdate;
+		uint64_t UUID = 0 ;
+		uint64_t CreationTimestamp = 0 ;
+		uint64_t LastConfigurationChange = 0 ;
+		uint64_t LastConfigurationDownload = 0 ;
+		uint64_t LastFWUpdate = 0 ;
 		std::string Venue;
 		std::string DevicePassword;
+		std::string subscriber;
+		std::string entity;
+		uint64_t 	modified=0;
+		std::string locale;
+
 		void to_json(Poco::JSON::Object &Obj) const;
 		void to_json_with_status(Poco::JSON::Object &Obj) const;
-		bool from_json(Poco::JSON::Object::Ptr &Obj);
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		void Print() const;
 	};
 
 	struct Statistics {
 		std::string SerialNumber;
-		uint64_t 	UUID;
+		uint64_t 	UUID = 0 ;
 		std::string Data;
-		uint64_t 	Recorded;
+		uint64_t 	Recorded = 0;
 		void to_json(Poco::JSON::Object &Obj) const;
 	};
 
 	struct HealthCheck {
 		std::string SerialNumber;
-		uint64_t 	UUID;
+		uint64_t 	UUID = 0 ;
 		std::string Data;
-		uint64_t 	Recorded;
-		uint64_t 	Sanity;
+		uint64_t 	Recorded = 0 ;
+		uint64_t 	Sanity = 0 ;
 		void to_json(Poco::JSON::Object &Obj) const;
 	};
 
 	struct Capabilities {
 		std::string Capabilities;
-		uint64_t 	FirstUpdate;
-		uint64_t 	LastUpdate;
+		uint64_t 	FirstUpdate = 0 ;
+		uint64_t 	LastUpdate = 0 ;
 		void 		to_json(Poco::JSON::Object &Obj) const;
 	};
 
@@ -100,10 +109,10 @@ namespace OpenWifi::GWObjects {
 		std::string SerialNumber;
 		std::string Log;
 		std::string Data;
-		uint64_t 	Severity;
-		uint64_t 	Recorded;
-		uint64_t 	LogType;
-		uint64_t 	UUID;
+		uint64_t 	Severity = 0 ;
+		uint64_t 	Recorded = 0 ;
+		uint64_t 	LogType = 0 ;
+		uint64_t 	UUID = 0 ;
 		void 		to_json(Poco::JSON::Object &Obj) const;
 	};
 
@@ -115,7 +124,7 @@ namespace OpenWifi::GWObjects {
 		uint64_t 	Created;
 		uint64_t 	LastModified;
 		void 		to_json(Poco::JSON::Object &Obj) const;
-		bool 		from_json(Poco::JSON::Object::Ptr &Obj);
+		bool 		from_json(const Poco::JSON::Object::Ptr &Obj);
 	};
 
 	struct CommandDetails {
@@ -137,6 +146,7 @@ namespace OpenWifi::GWObjects {
 		uint64_t AttachDate = 0 ;
 		uint64_t AttachSize = 0 ;
 		std::string AttachType;
+		double 		executionTime = 0.0;
 		void to_json(Poco::JSON::Object &Obj) const;
 	};
 
@@ -146,26 +156,26 @@ namespace OpenWifi::GWObjects {
 		std::string author;
 		uint64_t created;
 		void to_json(Poco::JSON::Object &Obj) const;
-		bool from_json(Poco::JSON::Object::Ptr &Obj);
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
 	};
 
 	struct RttySessionDetails {
 		std::string SerialNumber;
 		std::string Server;
-		uint64_t 	Port;
+		uint64_t 	Port = 0 ;
 		std::string Token;
-		uint64_t 	TimeOut;
+		uint64_t 	TimeOut = 0 ;
 		std::string ConnectionId;
-		uint64_t 	Started;
+		uint64_t 	Started = 0 ;
 		std::string CommandUUID;
-		uint64_t 	ViewPort;
+		uint64_t 	ViewPort = 0 ;
 		std::string DevicePassword;
 		void to_json(Poco::JSON::Object &Obj) const;
 	};
 
 	struct Dashboard {
-		uint64_t 		  snapshot;
-		uint64_t 		  numberOfDevices;
+		uint64_t 		  snapshot = 0 ;
+		uint64_t 		  numberOfDevices = 0 ;
 		Types::CountedMap commands;
 		Types::CountedMap upTimes;
 		Types::CountedMap memoryUsed;
@@ -188,5 +198,66 @@ namespace OpenWifi::GWObjects {
 		std::string capabilities;
 
 		void to_json(Poco::JSON::Object &Obj) const;
+	};
+
+	struct ScriptRequest {
+		uint64_t 	timeout=30;
+		std::string serialNumber;
+		std::string type;
+		std::string script;
+		std::string scriptId;
+		uint64_t 	when=0;
+		void to_json(Poco::JSON::Object &Obj) const;
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
+	};
+
+	struct RadiusProxyServerEntry {
+		std::string name;
+		std::string ip;
+		uint16_t 	port=0;
+		uint64_t 	weight=0;
+		std::string secret;
+		std::string certificate;
+		bool 		radsec=false;
+		uint16_t 	radsecPort=2083;
+		std::string radsecSecret;
+		std::string radsecKey;
+		std::string radsecCert;
+		std::vector<std::string> 	radsecCacerts;
+		std::vector<std::string>	radsecRealms;
+		bool 		ignore=false;
+
+		void to_json(Poco::JSON::Object &Obj) const;
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
+	};
+
+	struct RadiusProxyServerConfig {
+		std::string 	strategy;
+		bool 			monitor=false;
+		std::string 	monitorMethod;
+		std::vector<std::string>	methodParameters;
+		std::vector<RadiusProxyServerEntry>	servers;
+
+		void to_json(Poco::JSON::Object &Obj) const;
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
+	};
+
+	struct 	RadiusProxyPool {
+		std::string name;
+		std::string description;
+		RadiusProxyServerConfig	authConfig;
+		RadiusProxyServerConfig	acctConfig;
+		RadiusProxyServerConfig	coaConfig;
+		bool 		useByDefault=false;
+
+		void to_json(Poco::JSON::Object &Obj) const;
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
+	};
+
+	struct RadiusProxyPoolList {
+		std::vector<RadiusProxyPool>	pools;
+
+		void to_json(Poco::JSON::Object &Obj) const;
+		bool from_json(const Poco::JSON::Object::Ptr &Obj);
 	};
 }

@@ -17,6 +17,8 @@ namespace OpenWifi::KafkaTopics {
 	static const std::string COMMAND{"command"};
 	static const std::string SERVICE_EVENTS{"service_events"};
 	static const std::string DEVICE_EVENT_QUEUE{"device_event_queue"};
+	static const std::string DEVICE_TELEMETRY{"device_telemetry"};
+    static const std::string PROVISIONING_CHANGE{"provisioning_change"};
 
 	namespace ServiceEvents {
 		static const std::string EVENT_JOIN{"join"};

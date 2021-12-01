@@ -4,9 +4,7 @@
 
 #include <string>
 
-#ifndef UCENTRALFMS_RESTAPI_FMSOBJECTS_H
-#define UCENTRALFMS_RESTAPI_FMSOBJECTS_H
-
+#pragma once
 
 #include "RESTAPI_SecurityObjects.h"
 #include "framework/OpenWifiTypes.h"
@@ -127,7 +125,35 @@ namespace OpenWifi::FMSObjects {
         void reset();
         bool from_json(const Poco::JSON::Object::Ptr &Obj);
     };
+
+    struct DeviceInformation {
+        std::string                 serialNumber;
+        RevisionHistoryEntryList    history;
+        std::string                 currentFirmware;
+        uint64_t                    currentFirmwareDate=0;
+        std::string                 latestFirmware;
+        uint64_t                    latestFirmwareDate=0;
+        bool                        latestFirmwareAvailable;
+        std::string                 latestFirmwareURI;
+
+        void to_json(Poco::JSON::Object &Obj) const;
+        bool from_json(const Poco::JSON::Object::Ptr &Obj);
+    };
+
+    struct DeviceCurrentInfo {
+        std::string                 serialNumber;
+        std::string                 revision;
+        uint64_t                    upgraded=0;
+
+        void to_json(Poco::JSON::Object &Obj) const;
+        bool from_json(const Poco::JSON::Object::Ptr &Obj);
+    };
+
+    struct DeviceCurrentInfoList {
+        std::vector<DeviceCurrentInfo>  devices;
+
+        void to_json(Poco::JSON::Object &Obj) const;
+        bool from_json(const Poco::JSON::Object::Ptr &Obj);
+    };
+
 }
-
-
-#endif //UCENTRALFMS_RESTAPI_FMSOBJECTS_H
