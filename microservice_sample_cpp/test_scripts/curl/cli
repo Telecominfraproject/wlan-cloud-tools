@@ -2,9 +2,9 @@
 
 #
 #	License type: BSD 3-Clause License
-#	License copy: https://github.com/Telecominfraproject/wlan-cloud-ucentralgw/blob/master/LICENSE
+#	License copy: https://github.com/Telecominfraproject/wlan-cloud-tools/blob/master/LICENSE
 #
-#	Created by Stephane Bourque on 2021-03-04.
+#	Created by Stephane Bourque on 2022-08-04.
 #	Arilia Wireless Inc.
 #
 
@@ -141,7 +141,7 @@ reloadsubsystem() {
 
 help() {
   echo
-  echo "hello                               Get the device JSON document."
+  echo "hello                             Get the device JSON document."
   echo "setloglevel <sys> <level>         Set the logging system level for individual subsystems."
   echo "                                  sys:ufileuploader/websocket/storage/restapi/commandmanager/auth/deviceregistry/all"
   echo "                                  level:none/fatal/critical/error/warning/notice/information/debug/trace"

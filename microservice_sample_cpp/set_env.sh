@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export OWHELLOW_CONFIG=`pwd`
-export OWHELLOW_ROOT=`pwd`
+export $OWHELLOWORLD_CONFIG=`pwd`
+export $OWHELLOWORLD_ROOT=`pwd`
