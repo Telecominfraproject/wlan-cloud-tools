@@ -226,6 +226,28 @@ This is beyond the scope of this document. As it stands today, the communication
 However, the framework also allows secure Kafka access. To use secured access, you must fill the fields that
 start with `openwifi.kafka.ssl`.
 
+### Make it into a `docker container`
+Do be easily deployed, your micro service should be dockerrised. The sample included here has all the basic templates to be dockerized
+and fit into the other micro services that make up TIPOpenWifi 2.0. Here ate the files you should look at
+
+#### `Dockerfile`
+This is the basic Dockerfile that includes building all the dependencies for a micro service. You will find all the information 
+towards the end of the file. You should look for `ow_helloworld` and replace by you own micro srvice name. Replace also allo the default ports
+
+#### `docker-entrypoint.sh`
+This is the `docker` entry point file. It uses several environment varialbles set up in the Dockerfile itself. 
+
+#### `ow_helloworld.properties.tmpl`
+This is a template file used to deploy your micro service. It is used to create a default properties file. 
+
+#### More docker
+This is how Docker is currently done in TIP OpenWifi 2.0. For more information, please look at the other micro services.
+
+### Running as compiled source
+If you want to run as compile source while debugging, the file `ow_hwlloworld.service` is a Linux systemd service file. Replace 
+the obvious directories and names with your information. Follow the standard way of installing and enabling this file
+using `systemctl`.
+
 ## Contributors
 We love ya! We need more of ya! If you want to contribute, make sure you review
 the [coding style](https://github.com/Telecominfraproject/wlan-cloud-ucentralgw/blob/master/CODING_STYLE.md) document.
