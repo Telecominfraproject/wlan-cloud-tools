@@ -30,8 +30,8 @@
 namespace OpenWifi {
 
 	static const char * vDAEMON_PROPERTIES_FILENAME = "ow_helloworld.properties";
-	static const char * vDAEMON_ROOT_ENV_VAR = "OWHELLOW_ROOT";
-	static const char * vDAEMON_CONFIG_ENV_VAR = "OWHELLOW_CONFIG";
+	static const char * vDAEMON_ROOT_ENV_VAR = "OWHELLOWORLD_ROOT";
+	static const char * vDAEMON_CONFIG_ENV_VAR = "OWHELLOWORLD_CONFIG";
 	static const char * vDAEMON_APP_NAME = "ow_helloworld";
 	static const uint64_t vDAEMON_BUS_TIMER = 10000;
 
