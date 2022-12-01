@@ -6,6 +6,7 @@
 
 #include <string>
 #include <cstring>
+
 #include "Poco/String.h"
 
 #if defined(__GNUC__)
@@ -17,6 +18,26 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
+
+namespace OpenWifi {
+	enum UNAUTHORIZED_REASON {
+		SUCCESS=0,
+		PASSWORD_CHANGE_REQUIRED,
+		INVALID_CREDENTIALS,
+		PASSWORD_ALREADY_USED,
+		USERNAME_PENDING_VERIFICATION,
+		PASSWORD_INVALID,
+		INTERNAL_ERROR,
+		ACCESS_DENIED,
+		INVALID_TOKEN,
+		EXPIRED_TOKEN,
+		RATE_LIMIT_EXCEEDED,
+		BAD_MFA_TRANSACTION,
+		MFA_FAILURE,
+		SECURITY_SERVICE_UNREACHABLE,
+		CANNOT_REFRESH_TOKEN
+	};
+}
 
 namespace OpenWifi::RESTAPI::Errors {
     struct msg { uint64_t err_num; std::string err_txt; };
@@ -197,7 +218,22 @@ namespace OpenWifi::RESTAPI::Errors {
 	static const struct msg InvalidRadiusServerWeigth{1143,"RADIUS Server IP weight cannot be 0."};
 
 	static const struct msg MaximumRTTYSessionsReached{1144,"Too many RTTY sessions currently active"};
-}
+	static const struct msg DeviceIsAlreadyBusy{1145,"Device is already executing a command. Please try later."};
+
+	static const struct msg DeviceRequiresSignature{1146,"Device requires device signature to be provided."};
+
+    static const struct msg ApiKeyNameAlreadyExists{1147,"API Key name must be unique."};
+    static const struct msg TooManyApiKeys{1148,"Too many API Keys have already been created."};
+    static const struct msg UserMustExist{1149,"User must exist."};
+    static const struct msg ApiKeyNameDoesNotExist{1150,"API Key name does not exist."};
+    static const struct msg ApiKeyDoesNotExist{1150,"API Key does not exist."};
+
+	static const struct msg DeviceIsRestricted{1151,"Device is protected by regulation. This function is not allowed."};
+	static const struct msg InvalidURI{1152,"Invalid URI."};
+	static const struct msg InvalidScriptSelection{1153,"Only script or scriptId must be specified. Not both."};
+
+	static const struct msg NoDeviceStatisticsYet{1154,"Device statistics not available yet."};
+	}
 
 
 
@@ -411,6 +447,8 @@ namespace OpenWifi::uCentralProtocol {
     static const char *CHANNELS = "channels";
     static const char *PASSWORD = "password";
     static const char *DEVICEUPDATE = "deviceupdate";
+	static const char *FWSIGNATURE = "FWsignature";
+	static const char *SIGNATURE = "signature";
 
     static const char *SERIALNUMBER = "serialNumber";
     static const char *COMPATIBLE = "compatible";
@@ -488,6 +526,63 @@ namespace OpenWifi::uCentralProtocol::Events {
 			return ET_VENUEBROADCAST;
 		return ET_UNKNOWN;
 	};
+}
+
+namespace OpenWifi::APCommands {
+	enum class Commands:uint8_t {
+		capabilities,
+		logs,
+		healthchecks,
+		statistics,
+		status,
+		rtty,
+		configure,
+		upgrade,
+		reboot,
+		factory,
+		leds,
+		trace,
+		request,
+		wifiscan,
+		eventqueue,
+		telemetry,
+		ping,
+		script,
+		unknown
+	};
+
+	inline static const std::vector<const char *> uCentralAPCommands {
+		RESTAPI::Protocol::CAPABILITIES,
+		RESTAPI::Protocol::LOGS,
+		RESTAPI::Protocol::HEALTHCHECKS,
+		RESTAPI::Protocol::STATISTICS,
+		RESTAPI::Protocol::STATUS,
+		RESTAPI::Protocol::RTTY,
+		RESTAPI::Protocol::CONFIGURE,
+		RESTAPI::Protocol::UPGRADE,
+		RESTAPI::Protocol::REBOOT,
+		RESTAPI::Protocol::FACTORY,
+		RESTAPI::Protocol::LEDS,
+		RESTAPI::Protocol::TRACE,
+		RESTAPI::Protocol::REQUEST,
+		RESTAPI::Protocol::WIFISCAN,
+		RESTAPI::Protocol::EVENTQUEUE,
+		RESTAPI::Protocol::TELEMETRY,
+		RESTAPI::Protocol::PING,
+		RESTAPI::Protocol::SCRIPT};
+
+	inline const char * to_string(Commands Cmd) {
+		return uCentralAPCommands[(uint8_t)Cmd];
+	}
+
+	inline Commands to_apcommand(const char *cmd) {
+		for(auto i=(uint8_t)Commands::capabilities;i!=(uint8_t)Commands::unknown;++i) {
+			if(strcmp(uCentralAPCommands[i],cmd)==0)
+				return (Commands)i;
+		}
+		return Commands::unknown;
+	}
+
 }
 
 namespace OpenWifi::Provisioning::DeviceClass {

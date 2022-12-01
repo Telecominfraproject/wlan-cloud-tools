@@ -69,23 +69,70 @@ configure_file(src/ow_version.h.in ${PROJECT_SOURCE_DIR}/src/ow_version.h @ONLY)
 add_compile_options(-Wall -Wextra)
 
 add_executable( ow_helloworld
-                build
-                src/ow_version.h.in
-                src/framework/CountryCodes.h
-                src/framework/KafkaTopics.h
-                src/framework/MicroService.h
-                src/framework/OpenWifiTypes.h
-                src/framework/orm.h
-                src/framework/StorageClass.h
-                src/framework/ConfigurationValidator.cpp
-                src/framework/ConfigurationValidator.h
-                src/framework/ow_constants.h
-                src/RESTAPI/RESTAPI_routers.cpp
-                src/RESTObjects/RESTAPI_SecurityObjects.cpp src/RESTObjects/RESTAPI_SecurityObjects.h
-                src/RESTAPI/RESTAPI_helloWorld_handler.cpp src/RESTAPI/RESTAPI_helloWorld_handler.h
-                src/StorageService.cpp src/StorageService.h
-                src/Daemon.cpp src/Daemon.h
-                src/framework/ConfigurationValidator.cpp src/framework/ConfigurationValidator.h
+        src/ow_version.h.in
+        src/framework/CountryCodes.h
+        src/framework/KafkaTopics.h
+        src/framework/MicroService.h
+        src/framework/OpenWifiTypes.h
+        src/framework/orm.h
+        src/framework/StorageClass.h
+        src/framework/MicroServiceErrorHandler.h
+        src/framework/UI_WebSocketClientServer.cpp
+        src/framework/UI_WebSocketClientServer.h
+        src/framework/UI_WebSocketClientNotifications.cpp
+        src/framework/UI_WebSocketClientNotifications.h
+        src/framework/utils.h
+        src/framework/utils.cpp
+        src/framework/AppServiceRegistry.h
+        src/framework/SubSystemServer.cpp
+        src/framework/SubSystemServer.h
+        src/framework/RESTAPI_utils.h
+        src/framework/AuthClient.cpp
+        src/framework/AuthClient.h
+        src/framework/MicroServiceNames.h
+        src/framework/MicroServiceFuncs.h
+        src/framework/OpenAPIRequests.cpp
+        src/framework/OpenAPIRequests.h
+        src/framework/MicroServiceFuncs.cpp
+        src/framework/ALBserver.cpp
+        src/framework/ALBserver.h
+        src/framework/KafkaManager.cpp
+        src/framework/KafkaManager.h
+        src/framework/RESTAPI_RateLimiter.h
+        src/framework/WebSocketLogger.h
+        src/framework/RESTAPI_GenericServerAccounting.h
+        src/framework/CIDR.h
+        src/framework/RESTAPI_Handler.cpp
+        src/framework/RESTAPI_Handler.h
+        src/framework/RESTAPI_ExtServer.h
+        src/framework/RESTAPI_ExtServer.cpp
+        src/framework/RESTAPI_IntServer.cpp
+        src/framework/RESTAPI_IntServer.h
+        src/framework/RESTAPI_SystemCommand.h
+        src/framework/RESTAPI_WebSocketServer.h
+        src/framework/RESTAPI_SystemConfiguration.h
+        src/framework/EventBusManager.cpp
+        src/framework/EventBusManager.h
+        src/framework/RESTAPI_PartHandler.h
+        src/framework/MicroService.cpp
+        src/framework/MicroServiceExtra.h
+        src/framework/ConfigurationValidator.cpp
+        src/framework/ConfigurationValidator.h
+
+        src/RESTObjects/RESTAPI_SecurityObjects.h src/RESTObjects/RESTAPI_SecurityObjects.cpp
+        src/RESTObjects/RESTAPI_GWobjects.h src/RESTObjects/RESTAPI_GWobjects.cpp
+        src/RESTObjects/RESTAPI_FMSObjects.h src/RESTObjects/RESTAPI_FMSObjects.cpp
+        src/RESTObjects/RESTAPI_CertObjects.cpp src/RESTObjects/RESTAPI_CertObjects.h
+        src/RESTObjects/RESTAPI_OWLSobjects.cpp src/RESTObjects/RESTAPI_OWLSobjects.h
+        src/RESTObjects/RESTAPI_ProvObjects.cpp src/RESTObjects/RESTAPI_ProvObjects.h
+        src/RESTObjects/RESTAPI_AnalyticsObjects.cpp src/RESTObjects/RESTAPI_AnalyticsObjects.h
+        src/RESTObjects/RESTAPI_SubObjects.cpp src/RESTObjects/RESTAPI_SubObjects.h
+
+        src/RESTAPI/RESTAPI_routers.cpp
+
+        src/RESTAPI/RESTAPI_helloWorld_handler.cpp src/RESTAPI/RESTAPI_helloWorld_handler.h
+        src/StorageService.cpp src/StorageService.h
+        src/Daemon.cpp src/Daemon.h
         )
 
 if(NOT SMALL_BUILD)

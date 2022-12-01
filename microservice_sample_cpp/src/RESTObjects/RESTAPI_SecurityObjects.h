@@ -14,6 +14,7 @@
 #include "Poco/JSON/Object.h"
 #include "Poco/Data/LOB.h"
 #include "Poco/Data/LOBStream.h"
+#include "framework/utils.h"
 
 namespace OpenWifi {
     uint64_t Now();
@@ -62,7 +63,7 @@ namespace OpenWifi {
         std::string UserTypeToString(USER_ROLE U);
 
         struct NoteInfo {
-            uint64_t    created=0; // = OpenWifi::Now();
+            uint64_t    created=0; // = Utils::Now();
             std::string createdBy;
             std::string note;
 
@@ -101,7 +102,7 @@ namespace OpenWifi {
             std::string uuid;
             std::string question;
             std::string method;
-            uint64_t    created = OpenWifi::Now();
+            uint64_t    created = Utils::Now();
 
             void to_json(Poco::JSON::Object &Obj) const;
             bool from_json(const Poco::JSON::Object::Ptr &Obj);
@@ -251,7 +252,8 @@ namespace OpenWifi {
             VERIFY_EMAIL,
             SUB_FORGOT_PASSWORD,
             SUB_VERIFY_EMAIL,
-            SUB_SIGNUP
+            SUB_SIGNUP,
+            EMAIL_INVITATION
         };
 
         struct ActionLink {
@@ -263,7 +265,7 @@ namespace OpenWifi {
             std::string         locale;
             std::string         message;
             uint64_t            sent=0;
-            uint64_t            created=OpenWifi::Now();
+            uint64_t            created=Utils::Now();
             uint64_t            expires=0;
             uint64_t            completed=0;
             uint64_t            canceled=0;
@@ -323,5 +325,44 @@ namespace OpenWifi {
 
             void to_json(Poco::JSON::Object &Obj) const;
         };
+
+        struct ApiKeyAccessRight {
+            std::string     service;
+            std::string     access;
+
+            void to_json(Poco::JSON::Object &Obj) const;
+            bool from_json(const Poco::JSON::Object::Ptr &Obj);
+        };
+
+        struct ApiKeyAccessRightList {
+            std::vector<ApiKeyAccessRight>      acls;
+
+            void to_json(Poco::JSON::Object &Obj) const;
+            bool from_json(const Poco::JSON::Object::Ptr &Obj);
+        };
+
+        struct ApiKeyEntry {
+            Types::UUID_t           id;
+            Types::UUID_t           userUuid;
+            std::string             name;
+            std::string             description;
+            std::string             apiKey;
+            std::string             salt;
+            std::uint64_t           created;
+            std::uint64_t           expiresOn=0;
+            ApiKeyAccessRightList   rights;
+            std::uint64_t           lastUse=0;
+
+            void to_json(Poco::JSON::Object &Obj) const;
+            bool from_json(const Poco::JSON::Object::Ptr &Obj);
+        };
+
+        struct ApiKeyEntryList {
+            std::vector<ApiKeyEntry>    apiKeys;
+
+            void to_json(Poco::JSON::Object &Obj) const;
+            bool from_json(const Poco::JSON::Object::Ptr &Obj);
+        };
+
     }
 }
